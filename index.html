@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>AEGIS – NeuroX Prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<style>
+:root{--bg:#e9f8f6;--card:#fff;--ink:#12324a;--mut:#5b7b8c;--red:#e5384a;--grn:#17a673;--amb:#f5a524;--ln:#d3ebe7;--soft:#f2fbf9;--br:#0e9fb5;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:linear-gradient(160deg,#e0f7f3 0%,#e8f3ff 55%,#fff5ea 100%) fixed;color:var(--ink);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#14c8b0,#1b8ff0);color:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 4px 12px rgba(20,200,176,.4)}
+h1{font-size:20px;margin:0}h1 b{color:var(--br)}header small{color:var(--mut);display:block}
+.sp{flex:1}button{font:inherit;cursor:pointer;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:9px;padding:7px 12px}
+button:hover{border-color:var(--br)}.pri{background:linear-gradient(135deg,#14c8b0,#1b8ff0);color:#fff;border-color:transparent;font-weight:600}
+#cap{margin:0 20px;padding:10px 16px;border-radius:10px;background:linear-gradient(90deg,#14c8b0,#1b8ff0);color:#fff;font-weight:600;min-height:40px;display:none}
+#cap.on{display:block}
+#pipe{display:flex;gap:6px;padding:12px 20px;align-items:stretch;overflow-x:auto}
+.nd{flex:1;min-width:150px;background:var(--card);border:2px solid var(--ln);border-radius:12px;padding:8px 12px;transition:.2s}
+.nd b{display:block;font-size:11px;letter-spacing:.06em;color:var(--mut)}.nd span{font-size:13px;font-weight:600}
+.nd.p{border-color:var(--grn);box-shadow:0 0 0 3px rgba(31,138,91,.2)}.nd.al{border-color:var(--red);box-shadow:0 0 0 3px rgba(214,40,43,.25)}
+.ar{align-self:center;color:var(--mut)}
+.g{display:grid;grid-template-columns:290px 330px minmax(420px,1fr);gap:16px;padding:0 20px 16px;align-items:start}
+@media(max-width:1100px){.g{grid-template-columns:1fr}}
+.col>h3{margin:0 0 8px;font-size:12px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:12px;margin-bottom:12px;box-shadow:0 2px 10px rgba(14,159,181,.1)}
+/* band */
+.strap{width:92px;height:46px;margin:0 auto;background:#8fdcd3;border-radius:8px 8px 0 0}.strap.b{border-radius:0 0 8px 8px}
+.band{width:210px;margin:0 auto;border-radius:34px;background:#fff;padding:14px;border:4px solid #8fdcd3;box-shadow:0 8px 24px rgba(14,159,181,.25)}
+.scr{border-radius:22px;background:linear-gradient(160deg,#e6fbf7,#dff0ff);color:#12324a;padding:12px;text-align:center;height:210px;display:flex;flex-direction:column;justify-content:space-between;transition:background .3s}
+.scr.al{background:#ffe0e4}.scr.wa{background:#fff0d2}
+.bt{display:flex;justify-content:space-between;font-size:11px;opacity:.8}
+.hr{font-size:46px;font-weight:700;line-height:1}.hr i{display:inline-block;color:#ff4d57;font-style:normal;animation:hb 1s infinite}
+@keyframes hb{50%{transform:scale(1.25)}}
+.mini{display:flex;justify-content:space-around;font-size:12px}.msg{font-size:13px;font-weight:700;min-height:18px}
+.vib{animation:vb .12s 12}@keyframes vb{25%{transform:translateX(-4px) rotate(-1deg)}75%{transform:translateX(4px) rotate(1deg)}}
+.chip{display:inline-block;font-size:11px;background:var(--soft);border:1px solid var(--ln);border-radius:20px;padding:2px 8px;margin:2px}
+.bar{height:8px;background:var(--ln);border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--grn);transition:.3s}
+/* phone */
+.ph{width:310px;margin:0 auto;border:8px solid #fff;box-shadow:0 10px 30px rgba(14,159,181,.28);border-radius:38px;background:var(--bg);padding:14px;position:relative;overflow:hidden;min-height:560px}
+.ring{width:120px;height:120px;border-radius:50%;margin:8px auto;display:grid;place-items:center;transition:.3s}
+.ring div{width:92px;height:92px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center;font-size:12px;color:var(--mut)}.ring b{font-size:26px;color:var(--ink);display:block}
+.tl{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tl div{background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:8px;font-size:11px;color:var(--mut)}.tl b{display:block;font-size:20px;color:var(--ink)}
+.sos{width:100%;margin-top:8px;background:var(--red);color:#fff;border:0;padding:12px;font-weight:700;border-radius:12px}
+.ov{position:absolute;inset:0;background:rgba(236,251,248,.97);color:#12324a;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;gap:12px;z-index:5}.ov.on{display:flex}
+.ov b{font-size:46px}.ov button{width:100%;font-size:16px;padding:12px}
+/* dash */
+.ban{padding:12px 16px;border-radius:12px;color:#fff;font-weight:700;font-size:16px;background:var(--grn);transition:.3s}.ban.wa{background:var(--amb)}.ban.al{background:var(--red);animation:pl 1s infinite}
+@keyframes pl{50%{opacity:.8}}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}canvas{width:100%;height:110px;display:block}
+.st{display:flex;gap:6px}.st div{flex:1;text-align:center;padding:7px 2px;font-size:11px;font-weight:700;border-radius:8px;background:var(--soft);color:var(--mut);border:1px solid var(--ln)}
+.st .d{background:var(--grn);color:#fff;border-color:var(--grn)}.st .a{background:var(--amb);color:#fff;border-color:var(--amb)}
+.ct{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--ln);font-size:13px}.ct span{color:var(--mut)}
+#log{max-height:170px;overflow:auto;font-size:12px;font-family:ui-monospace,Menlo,monospace}#log div{padding:2px 0;border-bottom:1px dashed var(--ln)}
+.r{color:var(--red)}.gn{color:var(--grn)}.am{color:var(--amb)}
+#call{position:fixed;inset:0;background:rgba(18,50,74,.35);display:none;place-items:center;z-index:9}#call.on{display:grid}
+#call>div{background:var(--card);padding:26px;border-radius:20px;text-align:center;min-width:300px}#call h2{margin:6px 0}
+.sc{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 20px}.sc b{align-self:center;color:var(--mut);font-size:12px;text-transform:uppercase}
+input[type=number]{width:60px;padding:4px;border-radius:6px;border:1px solid var(--ln);background:var(--soft);color:var(--ink)}
+.note{font-size:11px;color:var(--mut);padding:0 20px 20px}
+</style></head><body>
+<header><div class="logo">♥</div><div><h1><b>AEGIS</b></h1><small>A second set of eyes, even when families can’t be there · Team NeuroX · The Corporate Glitch ’26</small></div><div class="sp"></div>
+<button id="snd" onclick="S.sound=!S.sound;this.textContent=S.sound?'🔊 Voice on':'🔇 Voice off'">🔊 Voice on</button><button class="pri" id="demoB" onclick="demo()">▶ Auto Demo (~100s)</button></header>
+<div id="cap"></div>
+<div id="pipe"></div>
+<div class="g">
+<div class="col"><h3>① Smart band · simulated ESP32</h3>
+<div class="strap"></div><div class="band" id="band"><div class="scr" id="scr"><div class="bt"><span id="bclk">--:--</span><span>⌁ BLE · 🔋<span id="bat">82</span>%</span></div>
+<div><div class="hr"><i id="hrt">♥</i><span id="bhr">--</span></div><div style="font-size:11px;opacity:.7">BPM</div></div>
+<div class="mini"><span>SpO₂ <b id="bsp">--</b>%</span><span>🌡 <b id="btp">--</b>°</span><span>👣 <b id="bst">--</b></span></div><div class="msg" id="bmsg">Monitoring</div></div></div><div class="strap b"></div>
+<div class="card" style="margin-top:12px"><span class="chip">MAX30102 HR/SpO₂</span><span class="chip">MPU6050 motion</span><span class="chip">Temp sensor</span>
+<div style="margin:8px 0 3px;font-size:12px">Signal quality <b id="sqv"></b></div><div class="bar"><i id="sqb"></i></div>
+<div style="margin:8px 0 3px;font-size:12px">Motion <b id="mov"></b> g</div><div class="bar"><i id="mob" style="background:var(--amb)"></i></div>
+<button class="sos" onclick="sos()">🆘 Band SOS button</button></div></div>
+<div class="col"><h3>② Patient app · Vimla, 68</h3><div class="ph" id="ph">
+<div style="font-weight:700">Hello, Vimla 👋</div><div style="font-size:11px;color:var(--mut)">Care plan active · caregiver: Anshika</div>
+<div class="ring" id="ring"><div><span><b id="rk">0</b>risk</span></div></div><div id="rt" style="text-align:center;font-weight:700;margin-bottom:8px">Stable</div>
+<div class="tl"><div>Heart rate<b id="phr">--</b></div><div>SpO₂<b id="psp">--</b></div><div>Steps<b id="pst">--</b></div><div>Adherence<b id="pad">100%</b></div></div>
+<div class="card" style="margin:10px 0 0" id="med"><b>💊 Medicines today</b><div id="ml"></div></div>
+<button class="sos" onclick="sos()">🆘 I need help</button>
+<div class="ov" id="ov1"><div style="font-size:50px">🫀</div><div id="ovt" style="font-size:18px;font-weight:700"></div><b id="ovc">12</b><button onclick="ok()" style="color:#111;font-weight:700">I’m OK — cancel alert</button></div>
+<div class="ov" id="ov2" style="background:rgba(232,250,240,.97)"><div style="font-size:50px">💊</div><div id="mdt" style="font-size:18px;font-weight:700"></div><b id="mdc">15</b><button onclick="taken()" style="color:#111;font-weight:700">✓ Taken</button></div>
+</div></div>
+<div class="col"><h3>③ Caregiver &amp; clinician dashboard</h3>
+<div class="ban" id="ban">STABLE</div><div style="height:10px"></div>
+<div class="two"><div class="card"><b>Heart rate</b> <span id="dhr" class="chip"></span><canvas id="c1" width="400" height="110"></canvas></div><div class="card"><b>SpO₂</b> <span id="dsp" class="chip"></span><canvas id="c2" width="400" height="110"></canvas></div></div>
+<div class="card"><b>Closed-loop response</b><div class="st" id="st" style="margin-top:8px"></div><div style="font-size:12px;color:var(--mut);margin-top:6px" id="why">Baseline learning · activity-aware thresholds · human confirmation</div></div>
+<div class="two"><div class="card"><b>Response hub</b><div id="cts"></div></div>
+<div class="card"><b>Clinician thresholds</b><div class="ct">HR high <input type="number" value="110" onchange="S.th.hrH=+this.value"></div><div class="ct">HR low <input type="number" value="50" onchange="S.th.hrL=+this.value"></div><div class="ct">SpO₂ low <input type="number" value="92" onchange="S.th.spL=+this.value"></div><div class="ct">Baseline HR <span id="bas"></span></div></div></div>
+<div class="card"><b>Audit log</b><div id="log"></div></div></div></div>
+<div class="sc"><b>Simulate:</b><button onclick="setSc('normal')">😌 Normal</button><button onclick="setSc('exercise')">🚶 Walking (high HR, expected)</button><button onclick="setSc('noisy')">📡 Noisy sensor</button><button onclick="setSc('tachy')">💓 Tachycardia</button><button onclick="setSc('hypox')">🫁 Low SpO₂</button><button onclick="setSc('fall')">🤕 Fall</button><button onclick="dose()">💊 Medicine due</button></div>
+<div class="note">Prototype with simulated sensor data (hardware path: ESP32 + MAX30102 + MPU6050). Not a medical-grade or diagnostic device and not a substitute for emergency services. AI supports caregivers and clinicians; humans stay in the loop.</div>
+<div id="call"><div><div style="font-size:44px">📞</div><h2 id="callw"></h2><div id="callst" style="color:var(--mut)"></div><button class="pri" id="ackb" style="margin-top:14px;display:none" onclick="ack()">Caregiver: Acknowledge</button><button id="skipb" style="margin:14px 0 0 8px;display:none" onclick="wl=1">⏩ Demo: no answer</button></div></div>
+<script>
+const $=i=>document.getElementById(i),R=Math.random,cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+const SC={normal:{hr:74,sp:97,mo:.1,sq:.95},exercise:{hr:120,sp:96,mo:.9,sq:.9},noisy:{hr:150,sp:82,mo:.4,sq:.25},tachy:{hr:138,sp:95,mo:.1,sq:.93},hypox:{hr:96,sp:86,mo:.1,sq:.93}};
+const S={hr:74,sp:97,tp:36.6,st:1240,mo:.1,sq:.95,tgt:SC.normal,base:74,sd:5,hH:[],sH:[],breach:0,phase:'idle',step:0,cool:0,cd:0,risk:0,sound:true,th:{hrH:110,hrL:50,spL:92},dose:null,taken:2,missed:0,fall:false,why:'',bat:82,triage:false};
+const CT=[['Anshika (Daughter)','Family'],['Mr. Verma','Mentor'],['Dr. Mehta','Clinician'],['Purvesh (Family)','Backup caregiver']],MEDS=[['Amlodipine 5 mg','08:00','✓'],['Metformin 500 mg','14:00','✓'],['Atorvastatin 10 mg','20:00','⏳']];
+const PN=[['WEARABLE','Sensors'],['PHONE / GATEWAY','BLE sync'],['SECURE BACKEND','FastAPI'],['RISK ENGINE','Assessing'],['RESPONSE HUB','Idle']];
+$('pipe').innerHTML=PN.map((p,i)=>(i?'<div class="ar">➜</div>':'')+`<div class="nd" id="n${i}"><b>${p[0]}</b><span id="nv${i}">${p[1]}</span></div>`).join('');
+$('st').innerHTML=['1 Detect','2 Verify','3 Notify','4 Acknowledge','5 Document'].map((s,i)=>`<div id="s${i}">${s}</div>`).join('');
+const cs=[];function con(i,t){cs[i]=t;$('cts').innerHTML=CT.map((c,k)=>`<div class="ct"><div>${c[0]}<br><span>${c[1]}</span></div><span>${cs[k]||(k==3?'Standby (backup)':'—')}</span></div>`).join('')}
+CT.forEach((_,i)=>cs[i]='');con(0,'');
+const T=()=>new Date().toLocaleTimeString([], {hour12:false});
+function log(c,m){const d=document.createElement('div');d.className=c;d.textContent=T()+'  '+m;$('log').prepend(d)}
+function say(t){if(S.sound&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(t);u.rate=.95;speechSynthesis.cancel();speechSynthesis.speak(u)}}
+let ac;function beep(f=880,d=.15){if(!S.sound)return;try{ac=ac||new AudioContext();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=.08;o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+function vib(){const b=$('band');b.classList.remove('vib');void b.offsetWidth;b.classList.add('vib');beep(660,.4)}
+function setSc(k){S.tgt=SC[k];S.fall=false;S.cool=0;if(k=='fall'){S.mo=3.2;S.tgt={hr:96,sp:96,mo:.02,sq:.9};S.fall=true;log('am','MPU6050: impact spike then no movement');}else log('','Scenario: '+k)}
+function sos(){log('r','SOS pressed by patient');escalate('Manual SOS')}
+function render(){
+ const al=S.phase=='escalate',vf=S.phase=='verify',rs=S.phase=='resolved';
+ const cls=al?'al':vf||S.risk>=25||S.triage?'wa':'';
+ $('scr').className='scr '+cls;$('ban').className='ban '+cls;
+ $('ban').textContent=al?'🚨 EMERGENCY — escalating to caregivers':vf?'⚠ VERIFYING — asking patient to confirm':rs?'✅ RESOLVED — responder acknowledged':S.triage?'📡 LOW SIGNAL QUALITY — alarm suppressed, re-checking':S.risk>=25?'👀 WATCH — trend deviating from baseline':'✅ STABLE — readings within plan';
+ const mg=al?'ALERT SENT':vf?'ARE YOU OK? '+S.cd:S.dose?'💊 '+S.dose.n:S.triage?'Check band fit':rs?'Help is coming':'Monitoring';
+ $('bmsg').textContent=mg;$('bhr').textContent=Math.round(S.hr);$('bsp').textContent=Math.round(S.sp);$('btp').textContent=S.tp.toFixed(1);$('bst').textContent=Math.round(S.st);
+ $('hrt').style.animationDuration=(60/cl(S.hr,40,180))+'s';$('bclk').textContent=T().slice(0,5);$('bat').textContent=Math.round(S.bat);
+ $('sqv').textContent=Math.round(S.sq*100)+'%';$('sqb').style.width=S.sq*100+'%';$('sqb').style.background=S.sq<.5?'var(--red)':'var(--grn)';
+ $('mov').textContent=S.mo.toFixed(2);$('mob').style.width=cl(S.mo/3,0,1)*100+'%';
+ const col=al?'var(--red)':cls?'var(--amb)':'var(--grn)';
+ $('ring').style.background=`conic-gradient(${col} ${S.risk*3.6}deg,var(--ln) 0)`;$('rk').textContent=S.risk;$('rt').textContent=al?'Emergency':cls?'Needs attention':'Stable';$('rt').style.color=col;
+ $('phr').textContent=Math.round(S.hr);$('psp').textContent=Math.round(S.sp)+'%';$('pst').textContent=Math.round(S.st);
+ const ad=S.taken+S.missed?Math.round(100*S.taken/(S.taken+S.missed)):100;$('pad').textContent=ad+'%';
+ $('dhr').textContent=Math.round(S.hr)+' bpm';$('dsp').textContent=Math.round(S.sp)+'%';$('bas').textContent=Math.round(S.base)+' ±'+S.sd.toFixed(1);
+ $('ml').innerHTML=MEDS.map((m,i)=>`<div class="ct">${m[0]}<span>${m[1]} ${i==2&&S.dose?'⏰ due':m[2]}</span></div>`).join('');
+ for(let i=0;i<5;i++){const e=$('s'+i);e.className=i<S.step-1||(S.step==5&&i<5)?'d':i==S.step-1?(rs?'d':'a'):''}
+ $('why').textContent=S.why||'Baseline learning · activity-aware thresholds · human confirmation';
+ $('nv0').textContent=`HR ${Math.round(S.hr)} · SpO₂ ${Math.round(S.sp)}`;$('nv1').textContent='BLE ✓ '+(30+Math.round(R()*20))+' ms';$('nv2').textContent='POST /vitals 200';$('nv3').textContent='Risk '+S.risk+' · '+(al?'critical':vf?'verify':S.triage?'bad signal':'stable');$('nv4').textContent=al?'ALERTING':vf?'Standby':'Idle';
+ $('n4').className='nd'+(al?' al':'');
+}
+function chart(cv,d,mn,mx,c,lines){const x=cv.getContext('2d'),w=cv.width,h=cv.height;x.clearRect(0,0,w,h);const y=v=>h-4-(v-mn)/(mx-mn)*(h-8);
+ x.setLineDash([4,4]);x.strokeStyle='#d6282b';x.lineWidth=1;lines.forEach(l=>{x.beginPath();x.moveTo(0,y(l));x.lineTo(w,y(l));x.stroke()});x.setLineDash([]);
+ x.strokeStyle=c;x.lineWidth=2.5;x.beginPath();d.forEach((v,i)=>{const X=i/59*w;i?x.lineTo(X,y(v)):x.moveTo(X,y(v))});x.stroke()}
+function pulse(){[0,1,2,3].forEach(i=>setTimeout(()=>{const n=$('n'+i);n.classList.add('p');setTimeout(()=>n.classList.remove('p'),260)},i*160))}
+function startVerify(why){if(S.phase!='idle')return;S.phase='verify';S.step=2;S.cd=12;S.why='Verify: '+why+' — signal quality OK ('+Math.round(S.sq*100)+'%). Asking patient to confirm.';
+ log('am','DETECT: '+why);log('am','VERIFY: band vibrates, patient asked “Are you OK?”');vib();$('ovt').textContent=why+'. Are you OK?';$('ov1').classList.add('on');say('Vimla, are you okay? Please tap I am OK.')}
+function ok(){if(S.phase!='verify')return;S.phase='idle';S.step=0;S.breach=0;S.cool=25;S.fall=false;S.why='Patient confirmed OK — event logged, monitoring continues.';$('ov1').classList.remove('on');log('gn','Patient confirmed OK · no escalation · logged');say('Thank you. Alert cancelled.');setSc('normal')}
+function escalate(why){if(S.phase=='escalate')return;S.phase='escalate';S.step=3;$('ov1').classList.remove('on');S.why='Escalate: '+why+' — no patient confirmation. Notifying care team.';log('r','ESCALATE: '+why+' (HR '+Math.round(S.hr)+', SpO₂ '+Math.round(S.sp)+')');vib();
+ [0,1,2].forEach(i=>setTimeout(()=>{if(S.phase=='escalate'){con(i,'Push + SMS sent ✓');log('r','Notified '+CT[i][0]+' ('+CT[i][1]+')')}},i*900));setTimeout(()=>call(0),3000)}
+const SEQ=[0,3,2],WAIT=[60,45,30];let ci=0,ackT,wl=0;
+function call(k){if(S.phase!='escalate')return;ci=k;const i=SEQ[k];con(i,'Calling…');$('call').classList.add('on');$('callw').textContent='Calling '+CT[i][0]+'…';$('callst').textContent='Ringing';$('ackb').style.display='none';$('skipb').style.display='none';beep(520,.3);
+ setTimeout(()=>{if(S.phase!='escalate')return;$('callst').textContent='Connected — AI voice briefing playing';$('ackb').style.display='';$('ackb').textContent=CT[i][0].split(' ')[0]+': Acknowledge';$('skipb').style.display='';log('r','Call connected: '+CT[i][0]);say('Emergency alert for Vimla. '+S.why.slice(0,60)+'. Heart rate '+Math.round(S.hr)+'. Please acknowledge.');
+  wl=WAIT[k];clearInterval(ackT);ackT=setInterval(()=>{if(S.phase!='escalate'){clearInterval(ackT);return}wl--;$('callst').textContent='Connected — waiting for acknowledgement · '+(k<2?CT[SEQ[k+1]][0]+' will be called in ':'auto-repeat in ')+wl+'s';if(wl<=0){clearInterval(ackT);if(k<2){con(i,'No answer ✗');log('am','No acknowledgement from '+CT[i][0]+' in '+WAIT[k]+'s → calling '+CT[SEQ[k+1]][0]);S.why='Backup: '+CT[i][0]+' did not acknowledge — escalating to '+CT[SEQ[k+1]][0]+'.';call(k+1)}else{con(i,'No answer ✗');log('r','No responder acknowledged — repeating the call cycle');$('call').classList.remove('on');setTimeout(()=>call(0),2000)}}},1000)},3000)}
+function ack(){if(S.phase!='escalate')return;clearTimeout(ackT);const i=SEQ[ci];S.phase='resolved';S.step=5;con(i,'Acknowledged ✓');$('call').classList.remove('on');S.why='Document: incident report saved — trigger, vitals, timeline, responder.';
+ log('gn','ACKNOWLEDGED by '+CT[i][0]);log('gn','DOCUMENT: incident report stored (audit trail)');say('Acknowledged. Help is on the way.');setSc('normal');
+ setTimeout(()=>{if(S.phase=='resolved'){S.phase='idle';S.step=0;S.cool=10;CT.forEach((_,k)=>con(k,''));S.why=''}},9000)}
+function dose(){if(S.dose)return;S.dose={n:'Atorvastatin 10 mg',l:15};S.step=0;$('mdt').textContent='Time for Atorvastatin 10 mg';$('mdc').textContent=15;$('ov2').classList.add('on');vib();log('','REMIND: dose due — band vibration + voice + app');say('Vimla, it is time for your Atorvastatin ten milligram tablet.')}
+function taken(){if(!S.dose)return;S.dose=null;S.taken++;MEDS[2][2]='✓';$('ov2').classList.remove('on');log('gn','Dose confirmed by patient · adherence logged');say('Great. Dose recorded.')}
+function tick(){
+ const g=S.tgt;S.hr+=(g.hr-S.hr)*.25+(R()-.5)*3;S.sp+=(g.sp-S.sp)*.2+(R()-.5)*.6;S.mo+=(g.mo-S.mo)*.3;S.sq+=(g.sq-S.sq)*.3+(R()-.5)*.04;
+ if(S.sq<.5){S.hr+=(R()-.5)*40;S.sp+=(R()-.5)*8}S.hr=cl(S.hr,35,190);S.sp=cl(S.sp,70,100);S.tp=36.6+(S.hr-74)*.004+(R()-.5)*.08;if(S.mo>.5)S.st+=2;S.bat=Math.max(5,S.bat-.01);
+ S.hH.push(S.hr);S.sH.push(S.sp);if(S.hH.length>60){S.hH.shift();S.sH.shift()}
+ const lim=S.th.hrH+(S.mo>.6?30:0),hrB=S.hr>lim||S.hr<S.th.hrL,spB=S.sp<S.th.spL,bad=hrB||spB;
+ if(S.phase=='idle'&&!bad&&S.sq>.6){S.base+=(S.hr-S.base)*.03;S.sd=Math.max(3,S.sd+(Math.abs(S.hr-S.base)-S.sd)*.03)}
+ const z=Math.abs(S.hr-S.base)/S.sd;let r=0;if(hrB)r+=30+Math.abs(S.hr-lim)*1.2;if(spB)r+=35+(S.th.spL-S.sp)*5;r+=Math.min(15,Math.max(0,z-2)*4);if(S.fall)r+=60;if(S.dose)r+=8;
+ S.risk=S.sq<.5?Math.min(r,20):Math.round(cl(r,0,100));S.triage=S.sq<.5&&bad;
+ if(S.phase=='idle'){if(S.cool>0)S.cool--;
+  else if(S.triage){S.breach=0;if(!S.tl){S.tl=1;S.why='Triage: readings abnormal but signal quality is '+Math.round(S.sq*100)+'% — discarded to avoid a false alarm.';log('am','TRIAGE: low signal quality — alarm suppressed, re-checking')}}
+  else{S.tl=0;if(g==SC.exercise&&S.hr>S.th.hrH)S.why='Context: HR '+Math.round(S.hr)+' while walking — expected, activity-adjusted threshold ('+lim+').';
+   if(S.fall)startVerify('Fall detected');else if(bad){if(++S.breach>=3)startVerify(hrB?'Sustained abnormal heart rate':'Low blood oxygen trend')}else{S.breach=0;if(!S.tl&&g!=SC.exercise&&S.step==0)S.why=''}}}
+ if(S.phase=='verify'){S.cd--;$('ovc').textContent=S.cd;if(S.cd<=0)escalate('No response after verification')}
+ if(S.dose){S.dose.l--;$('mdc').textContent=S.dose.l;if(S.dose.l<=0){S.dose=null;S.missed++;MEDS[2][2]='✗ missed';$('ov2').classList.remove('on');log('r','Dose MISSED → follow-up sent to Anshika');con(0,'Missed-dose follow-up ✓');say('Dose missed. Your caregiver has been informed.');setTimeout(()=>con(0,''),6000)}}
+ pulse();render();chart($('c1'),S.hH,40,170,'#d6282b',[S.th.hrH,S.th.hrL]);chart($('c2'),S.sH,80,100,'#1f6fd6',[S.th.spL])}
+setInterval(tick,1000);con(0,'');
+let dT=[],dOn=false;
+function demo(){if(dOn){dT.forEach(clearTimeout);dOn=false;$('cap').classList.remove('on');$('demoB').textContent='▶ Auto Demo (~100s)';return}
+ dOn=true;$('demoB').textContent='■ Stop demo';
+ const st=[[0,'1 · Normal day — band streams HR, SpO₂, motion; LifeGuard learns this patient’s own baseline',()=>setSc('normal')],
+ [9,'2 · Context-aware: heart rate is high but the patient is walking — NO false alarm',()=>setSc('exercise')],
+ [20,'3 · Noisy sensor: readings look scary but signal quality is low — triage suppresses the alarm',()=>setSc('noisy')],
+ [30,'4 · Back to normal',()=>setSc('normal')],
+ [36,'5 · Sustained tachycardia detected → VERIFY: band vibrates, patient is asked',()=>setSc('tachy')],
+ [48,'6 · Patient taps “I’m OK” → alert cancelled, event logged (human-in-the-loop)',()=>ok()],
+ [56,'7 · Medicine reminder: band vibration + voice + app prompt',()=>dose()],
+ [62,'8 · Patient confirms dose → adherence tracked (missed dose would alert the caregiver)',()=>taken()],
+ [68,'9 · Fall detected… patient does not respond',()=>setSc('fall')],
+ [83,'10 · ESCALATE: push + SMS to family, mentor, clinician → automated voice call',()=>{}],
+ [92,'11 · Caregiver acknowledges → incident documented. Closed loop complete.',()=>ack()],
+ [101,'AEGIS — A second set of eyes, even when families can’t be there.',()=>{}],[108,'',()=>demo()]];
+ st.forEach(s=>dT.push(setTimeout(()=>{if(s[1]){$('cap').textContent=s[1];$('cap').classList.add('on')}s[2]()},s[0]*1000)))}
+render();
+</script></body></html>
